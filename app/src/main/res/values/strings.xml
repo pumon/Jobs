@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Jobs</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign In </string>
+    <string name="action_sign_up">Sign Up </string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome "</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="title_activity_job_main">Job_main</string>
+    <string name="tab_text_1">Details</string>
+    <string name="tab_text_2">Job List</string>
+    <string name="tab_text_3">Create Job</string>
+
+</resources>
