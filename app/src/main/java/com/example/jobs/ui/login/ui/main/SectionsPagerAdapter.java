@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.jobs.R;
+import com.example.jobs.ui.login.Job_list_Fragment;
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
@@ -29,7 +30,19 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         // getItem is called to instantiate the fragment for the given page.
         // Return a PlaceholderFragment (defined as a static inner class below).
-        return PlaceholderFragment.newInstance(position + 1);
+       // return PlaceholderFragment.newInstance(position + 1);
+
+        switch (position){
+            case 0:
+                return PlaceholderFragment.newInstance(3);
+            case 1:
+                return  Job_list_Fragment.newInstance(2);
+            case 2:
+                return PlaceholderFragment.newInstance(1);
+
+            default: return PlaceholderFragment.newInstance(position);
+        }
+
     }
 
     @Nullable
