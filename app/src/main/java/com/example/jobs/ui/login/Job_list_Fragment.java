@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -42,6 +43,7 @@ public class Job_list_Fragment extends Fragment {
     private ListAdapter mListadapter;
     private ArrayList<HashMap> arrayList;
     private LinearLayoutManager layoutManager;
+    private SwipeRefreshLayout swipeContainer;
     RequestQueue queue;
     String URL = "https://jobs-9e6e0.firebaseio.com/Job_details.json";
     public Job_list_Fragment(){
@@ -67,7 +69,19 @@ public class Job_list_Fragment extends Fragment {
             recyclerView = (RecyclerView) root.findViewById(R.id.recycler_list);
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setAdapter(mListadapter);
-            //return inflater.inflate(R.layout.job_list__fragment, container, false);
+            swipeContainer = (SwipeRefreshLayout) root.findViewById(R.id.swipelayout);
+            swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    mListadapter.clear();
+                    arrayList=get_job_details();
+                    mListadapter.addAll(arrayList);
+                }
+            });
+        swipeContainer.setColorSchemeResources(android.R.color.holo_purple,
+                android.R.color.holo_green_dark,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
         return root;
 
     }
@@ -80,11 +94,12 @@ public class Job_list_Fragment extends Fragment {
             @Override
             public void onResponse(String response) {
                 try {
+                    //mListadapter.clear();
                     JSONArray data=new JSONArray(response);
                     for(int i=0;i<data.length();i++) {
                         HashMap<String, String> map = new HashMap<String, String>();
                         JSONObject tmp=data.getJSONObject(i);
-                        Log.d("data",""+i+""+tmp.getString("Job_id"));
+                      //  Log.d("data",""+i+""+tmp.getString("Job_id"));
                         map.put("Job_id",tmp.getString("Job_id").toString());
                         map.put("company_name",tmp.getString("company_name").toString());
                         map.put("Job_exp",tmp.getString("Job_exp").toString());
@@ -94,9 +109,10 @@ public class Job_list_Fragment extends Fragment {
                         details.add(map);
                         mListadapter.notifyDataSetChanged();
                     }
-
+                    swipeContainer.setRefreshing(false);
 
                 } catch (Exception e) {
+                    swipeContainer.setRefreshing(false);
                     e.printStackTrace();
                 }
              //   Toast.makeText(getContext(),details.size()+""+map.get("Job_type"),Toast.LENGTH_LONG).show();
@@ -111,8 +127,4 @@ public class Job_list_Fragment extends Fragment {
 
         return details;
     }
-
-
-
-
 }

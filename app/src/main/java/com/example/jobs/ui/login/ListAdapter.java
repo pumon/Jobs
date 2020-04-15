@@ -2,9 +2,6 @@ package com.example.jobs.ui.login;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.jobs.R;
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,7 +49,15 @@ class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>
             this.imageView=itemView.findViewById(R.id.company_image);
         }
     }
+    public void clear() {
+        arrayList.clear();
+        notifyDataSetChanged();
+    }
 
+    public void addAll(ArrayList<HashMap> data) {
+        arrayList=data;
+        notifyDataSetChanged();
+    }
     @Override
     public ListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
