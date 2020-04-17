@@ -87,7 +87,7 @@ public class Create_Job_Fragment extends Fragment {
             RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
             String URL = "https://jobs-9e6e0.firebaseio.com/Job_details.json";
             JSONObject jsonBody = new JSONObject();
-            String id=LocalDateTime.now().toString();
+            String id=String.valueOf(System.currentTimeMillis());
             jsonBody.put("Job_id", id);
             jsonBody.put("Job_type", job_type.getText());
             jsonBody.put("Job_salary", salary.getText());

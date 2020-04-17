@@ -2,6 +2,7 @@ package com.example.jobs.ui.login;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.squareup.picasso.Picasso;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>
@@ -70,6 +72,8 @@ class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>
     @Override
     public void onBindViewHolder(ListAdapter.ViewHolder holder, final int position)
     {
+       // int i=arrayList.size()-position;
+       // Log.e(position+" ",i+"");
         map= arrayList.get(position);
         if(map.get("company_img").equals("null"))
             holder.imageView.setImageResource(R.drawable.test);
