@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.jobs.R;
+import com.example.jobs.ui.login.Create_Job_Fragment;
 import com.example.jobs.ui.login.Job_list_Fragment;
 import com.example.jobs.ui.login.Profile_fragment;
 
@@ -38,11 +39,11 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         switch (position){
             case 0:
-                return Profile_fragment.newInstance();
+                return new Profile_fragment();
             case 1:
                 return  new Job_list_Fragment();
             case 2:
-                return PlaceholderFragment.newInstance(1);
+                return new Create_Job_Fragment();
 
             default: return PlaceholderFragment.newInstance(position);
         }

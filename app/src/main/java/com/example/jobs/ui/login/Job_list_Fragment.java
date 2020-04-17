@@ -29,10 +29,12 @@ import com.android.volley.toolbox.Volley;
 import com.example.jobs.R;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 public class Job_list_Fragment extends Fragment {
 
@@ -44,8 +46,7 @@ public class Job_list_Fragment extends Fragment {
     private ArrayList<HashMap> arrayList;
     private LinearLayoutManager layoutManager;
     private SwipeRefreshLayout swipeContainer;
-    RequestQueue queue;
-    String URL = "https://jobs-9e6e0.firebaseio.com/Job_details.json";
+
     public Job_list_Fragment(){
 
     }
@@ -88,29 +89,35 @@ public class Job_list_Fragment extends Fragment {
 
 
     private ArrayList<HashMap> get_job_details(){
+        RequestQueue queue;
+        String URL = "https://jobs-9e6e0.firebaseio.com/Job_details.json";
         final ArrayList<HashMap> details=new ArrayList<>();
         queue = Volley.newRequestQueue(getContext());
         StringRequest request = new StringRequest(Request.Method.GET, URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
-                    //mListadapter.clear();
-                    JSONArray data=new JSONArray(response);
-                    for(int i=0;i<data.length();i++) {
-                        HashMap<String, String> map = new HashMap<String, String>();
-                        JSONObject tmp=data.getJSONObject(i);
-                      //  Log.d("data",""+i+""+tmp.getString("Job_id"));
-                        map.put("Job_id",tmp.getString("Job_id").toString());
-                        map.put("company_name",tmp.getString("company_name").toString());
-                        map.put("Job_exp",tmp.getString("Job_exp").toString());
-                        map.put("Job_salary",tmp.getString("Job_salary").toString());
-                        map.put("Job_type",tmp.getString("Job_type").toString());
-                        map.put("company_img",tmp.getString("company_img").toString());
-                        details.add(map);
-                        mListadapter.notifyDataSetChanged();
+                    JSONObject data=new JSONObject(response);
+                    Iterator<String> iter = data.keys();
+                    while (iter.hasNext()) {
+                        String key = iter.next();
+                        try {
+                            HashMap<String, String> map = new HashMap<String, String>();
+                            JSONObject tmp= new JSONObject(data.get(key).toString());
+                            //  Log.d("data",""+i+""+tmp.getString("Job_id"));
+                            map.put("Job_id",tmp.getString("Job_id").toString());
+                            map.put("company_name",tmp.getString("company_name").toString());
+                            map.put("Job_exp",tmp.getString("Job_exp").toString());
+                            map.put("Job_salary",tmp.getString("Job_salary").toString());
+                            map.put("Job_type",tmp.getString("Job_type").toString());
+                            map.put("company_img",tmp.getString("company_img").toString());
+                            details.add(map);
+                            mListadapter.notifyDataSetChanged();
+                        swipeContainer.setRefreshing(false);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
-                    swipeContainer.setRefreshing(false);
-
                 } catch (Exception e) {
                     swipeContainer.setRefreshing(false);
                     e.printStackTrace();
