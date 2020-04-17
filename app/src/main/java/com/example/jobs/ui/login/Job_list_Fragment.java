@@ -119,6 +119,8 @@ public class Job_list_Fragment extends Fragment {
                             e.printStackTrace();
                         }
                     }
+                    Collections.reverse(details);
+                    mListadapter.notifyDataSetChanged();
                 } catch (Exception e) {
                     swipeContainer.setRefreshing(false);
                     e.printStackTrace();
@@ -132,7 +134,6 @@ public class Job_list_Fragment extends Fragment {
             }
         });
         queue.add(request);
-
         return details;
     }
 }
